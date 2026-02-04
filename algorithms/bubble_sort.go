@@ -1,6 +1,5 @@
 package algorithms
 
-// BubbleSort returns a sorted copy of nums in ascending order using bubble sort.
 func BubbleSort(nums []int) []int {
 	sorted := append([]int(nil), nums...)
 	if len(sorted) < 2 {
