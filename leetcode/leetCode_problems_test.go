@@ -68,3 +68,16 @@ func Test_isValid(t *testing.T) {
 		t.Errorf("Wrong return")
 	}
 }
+
+func Test_evalRPN(t *testing.T) {
+	// tokens := []string{"2", "1", "+", "3", "*"}
+	tokens := []string{"4", "13", "5", "/", "+"}
+
+	result := evalRPN(tokens)
+
+	fmt.Printf("%v", result)
+
+	if result != 6 {
+		t.Errorf("Wrong return")
+	}
+}

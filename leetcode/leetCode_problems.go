@@ -1,6 +1,8 @@
 package leetcode
 
 import (
+	"strconv"
+
 	"github.com/ilij4/go-demo/helpers"
 )
 
@@ -168,4 +170,71 @@ func isValid(s string) bool {
 	}
 
 	return stack.IsEmpty()
+}
+
+// 150. Evaluate Reverse Polish Notation
+func evalRPN(tokens []string) int {
+	stack := helpers.NewStack[string]()
+
+	result := 0
+
+	getLastTwo := func() (int, int) {
+		v1Str, ok := stack.Pop()
+		if !ok {
+			return 0, 0
+		}
+		v2Str, ok := stack.Pop()
+		if !ok {
+			return 0, 0
+		}
+
+		v1, err := strconv.Atoi(v1Str)
+		if err != nil {
+			return 0, 0
+		}
+		v2, err := strconv.Atoi(v2Str)
+		if err != nil {
+			return 0, 0
+		}
+
+		return v2, v1
+	}
+
+	for _, token := range tokens {
+		switch token {
+		case "+":
+			v1, v2 := getLastTwo()
+			r := v1 + v2
+
+			stack.Push(strconv.Itoa(r))
+		case "-":
+			v1, v2 := getLastTwo()
+			r := v1 - v2
+
+			stack.Push(strconv.Itoa(r))
+		case "*":
+			v1, v2 := getLastTwo()
+			r := v1 * v2
+
+			stack.Push(strconv.Itoa(r))
+		case "/":
+			v1, v2 := getLastTwo()
+			r := v1 / v2
+
+			stack.Push(strconv.Itoa(r))
+		default:
+			stack.Push(token)
+		}
+	}
+
+	r, ok := stack.Pop()
+	if !ok {
+		return 0
+	}
+	result, err := strconv.Atoi(r)
+	if err != nil {
+		return 0
+	}
+
+	return result
 }
